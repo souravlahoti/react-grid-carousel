@@ -137,7 +137,7 @@ var Item = styled__default["default"].div(templateObject_5 || (templateObject_5 
 });
 var CAROUSEL_ITEM = 'CAROUSEL_ITEM';
 function Carousel(_a) {
-    var _b = _a.cols, colsProp = _b === void 0 ? 1 : _b, _c = _a.rows, rowsProp = _c === void 0 ? 1 : _c, _d = _a.gap, gapProp = _d === void 0 ? 10 : _d, _e = _a.loop, loopProp = _e === void 0 ? false : _e, _f = _a.scrollSnap, scrollSnap = _f === void 0 ? true : _f, _g = _a.hideArrow, hideArrow = _g === void 0 ? false : _g, arrowLeft = _a.arrowLeft, arrowRight = _a.arrowRight, containerClassName = _a.containerClassName, containerStyle = _a.containerStyle, children = _a.children, _h = _a.startPage, startPage = _h === void 0 ? 0 : _h, onPageChanged = _a.onPageChanged;
+    var _b = _a.cols, colsProp = _b === void 0 ? 1 : _b, _c = _a.rows, rowsProp = _c === void 0 ? 1 : _c, _d = _a.gap, gapProp = _d === void 0 ? 10 : _d, _e = _a.loop, loopProp = _e === void 0 ? false : _e, _f = _a.scrollSnap, scrollSnap = _f === void 0 ? true : _f, _g = _a.hideArrow, hideArrow = _g === void 0 ? false : _g, arrowLeft = _a.arrowLeft, arrowRight = _a.arrowRight, containerClassName = _a.containerClassName, containerStyle = _a.containerStyle, children = _a.children, _h = _a.startPage, startPage = _h === void 0 ? 0 : _h, onPageChanged = _a.onPageChanged, onTotalPagesChanged = _a.onTotalPagesChanged;
     var _j = react.useState(startPage), currentPage = _j[0], setCurrentPage = _j[1];
     var _k = react.useState(colsProp), cols = _k[0], setCols = _k[1];
     var _l = react.useState(rowsProp), rows = _l[0], setRows = _l[1];
@@ -148,6 +148,7 @@ function Carousel(_a) {
     var railWrapperRef = react.useRef(null);
     var randomKey = react.useMemo(function () { return "".concat(Math.random(), "-").concat(Math.random()); }, []);
     var onPageChangedRef = useRefProp(onPageChanged);
+    var onTotalPagesChangedRef = useRefProp(onTotalPagesChanged);
     react.useEffect(function () {
         var _a;
         (_a = onPageChangedRef.current) === null || _a === void 0 ? void 0 : _a.call(onPageChangedRef, currentPage);
@@ -211,6 +212,10 @@ function Carousel(_a) {
         }, []);
     }, [itemList, itemAmountPerSet, scrollSnap]);
     var page = Math.ceil(itemList.length / itemAmountPerSet);
+    react.useEffect(function () {
+        var _a;
+        (_a = onTotalPagesChangedRef.current) === null || _a === void 0 ? void 0 : _a.call(onTotalPagesChangedRef, page);
+    }, [page]);
     var handlePrev = react.useCallback(function () {
         setCurrentPage(function (p) {
             var prevPage = p - 1;

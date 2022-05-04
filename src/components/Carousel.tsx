@@ -26,7 +26,8 @@ export type CarouselProps = {
   arrowRight?: ReactNode;
   containerClassName?: string;
   containerStyle?: CSSProperties;
-  onPageChanged?: (page: number) => number;
+  onPageChanged?: (page: number) => void;
+  onTotalPagesChanged?: (page: number) => void;
   startPage?: number;
   children?: ReactNode;
 };
@@ -82,6 +83,7 @@ function Carousel({
   children,
   startPage = 0,
   onPageChanged,
+  onTotalPagesChanged,
 }: CarouselProps) {
   const [currentPage, setCurrentPage] = useState<number>(startPage);
   const [cols, setCols] = useState<number>(colsProp);
@@ -93,6 +95,7 @@ function Carousel({
   const railWrapperRef = useRef<HTMLDivElement>(null);
   const randomKey = useMemo(() => `${Math.random()}-${Math.random()}`, []);
   const onPageChangedRef = useRefProp(onPageChanged);
+  const onTotalPagesChangedRef = useRefProp(onTotalPagesChanged);
 
   useEffect(() => {
     onPageChangedRef.current?.(currentPage);
@@ -178,6 +181,10 @@ function Carousel({
   );
 
   const page = Math.ceil(itemList.length / itemAmountPerSet);
+
+  useEffect(() => {
+    onTotalPagesChangedRef.current?.(page);
+  }, [page]);
 
   const handlePrev = useCallback(() => {
     setCurrentPage((p) => {
