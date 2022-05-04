@@ -1,4 +1,4 @@
-import { CSSProperties, FC, ReactElement, ReactNode } from 'react';
+import { CSSProperties, FC, ReactNode } from 'react';
 export declare type CarouselProps = {
     cols?: number;
     rows?: number;
@@ -12,7 +12,7 @@ export declare type CarouselProps = {
     containerStyle?: CSSProperties;
     onPageChanged?: (page: number) => number;
     startPage?: number;
-    children?: ReactElement[];
+    children?: ReactNode;
 };
 declare function Carousel({ cols: colsProp, rows: rowsProp, gap: gapProp, loop: loopProp, scrollSnap, hideArrow, arrowLeft, arrowRight, containerClassName, containerStyle, children, startPage, onPageChanged, }: CarouselProps): JSX.Element;
 declare namespace Carousel {
