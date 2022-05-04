@@ -28,7 +28,7 @@ export type CarouselProps = {
   containerStyle?: CSSProperties;
   onPageChanged?: (page: number) => number;
   startPage?: number;
-  children?: ReactElement[];
+  children?: ReactNode;
 };
 
 const Container = styled.div`
