@@ -107,9 +107,10 @@ const Carousel = ({
   containerClassName = '',
   containerStyle = {},
   children,
+  startPage = 0,
   onPageChanged
 }) => {
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(startPage)
   const [isHover, setIsHover] = useState(false)
   const [isTouch, setIsTouch] = useState(false)
   const [cols, setCols] = useState(colsProp)
@@ -442,7 +443,8 @@ Carousel.propTypes = {
   ]),
   containerClassName: PropTypes.string,
   containerStyle: PropTypes.object,
-  onPageChanged: PropTypes.func
+  onPageChanged: PropTypes.func,
+  startPage: PropTypes.number
 }
 
 Carousel.Item = ({ children }) => children
