@@ -27,8 +27,7 @@
     "dev": "concurrently \"nodemon\" \"webpack-dev-server --config examples/webpack.config.js\"",
     "build": "rollup -c",
     "prettier": "prettier --write './**/*.{ts,tsx,jsx,js,json,css}'",
-    "prepare": "husky install",
-    "release": "standard-version --no-verify"
+    "prepare": "husky install"
   },
   "author": "YY",
   "license": "MIT",
@@ -37,7 +36,6 @@
   ],
   "dependencies": {
     "lodash.debounce": "^4.0.8",
-    "standard-version": "^9.3.2",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

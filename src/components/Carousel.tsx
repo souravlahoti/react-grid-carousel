@@ -1,15 +1,4 @@
-import {
-  Children,
-  CSSProperties,
-  FC,
-  ReactElement,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import {Children, CSSProperties, FC, ReactNode, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
 import useRefProp from '../hooks/useRefProp';
 import {addResizeHandler, removeResizeHandler} from '../utils/resizeListener';
