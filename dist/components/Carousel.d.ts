@@ -2,8 +2,9 @@ import { CSSProperties, FC, ReactNode } from 'react';
 export declare type CarouselProps = {
     cols?: number;
     rows?: number;
-    gap?: number | string;
+    gap?: number;
     loop?: boolean;
+    scrollable?: boolean;
     scrollSnap?: boolean;
     hideArrow?: boolean;
     arrowLeft?: ReactNode;
@@ -15,7 +16,7 @@ export declare type CarouselProps = {
     startPage?: number;
     children?: ReactNode;
 };
-declare function Carousel({ cols: colsProp, rows: rowsProp, gap: gapProp, loop: loopProp, scrollSnap, hideArrow, arrowLeft, arrowRight, containerClassName, containerStyle, children, startPage, onPageChanged, onTotalPagesChanged, }: CarouselProps): JSX.Element;
+declare function Carousel({ cols: colsProp, rows: rowsProp, gap: gapProp, loop: loopProp, scrollable, scrollSnap, hideArrow, arrowLeft, arrowRight, containerClassName, containerStyle, children, startPage, onPageChanged, onTotalPagesChanged, }: CarouselProps): JSX.Element;
 declare namespace Carousel {
     var Item: FC<{}>;
 }

@@ -72,6 +72,14 @@ const App = () => {
           </Carousel.Item>
         ))}
       </Carousel>
+      <h4 className="thin">Scrollable free size</h4>
+      <Carousel scrollable>
+        {[...Array(15)].map((_, i) => (
+          <Carousel.Item key={i}>
+            <img width="152px" src={randomImgUrl.replace('{x}', 350).replace('{y}', 170) + i * 2} />
+          </Carousel.Item>
+        ))}
+      </Carousel>
       <h4 className="thin">Multiple cols + multiple rows</h4>
       <Carousel showDots cols={3} rows={2} containerStyle={{maxWidth: '800px'}}>
         {[...Array(18)].map((_, i) => (

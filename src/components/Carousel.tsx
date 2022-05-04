@@ -1,14 +1,26 @@
-import {Children, CSSProperties, FC, ReactNode, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {
+  Children,
+  CSSProperties,
+  FC,
+  Fragment,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  UIEvent,
+} from 'react';
 import styled from 'styled-components';
 import useRefProp from '../hooks/useRefProp';
-import {addResizeHandler, removeResizeHandler} from '../utils/resizeListener';
 import ArrowButton from './ArrowButton';
 
 export type CarouselProps = {
   cols?: number;
   rows?: number;
-  gap?: number | string;
+  gap?: number;
   loop?: boolean;
+  scrollable?: boolean;
   scrollSnap?: boolean;
   hideArrow?: boolean;
   arrowLeft?: ReactNode;
@@ -25,16 +37,22 @@ const Container = styled.div`
   position: relative;
 `;
 
-const RailWrapper = styled.div<Pick<CarouselProps, 'scrollSnap'>>`
+const RailWrapper = styled.div<Pick<CarouselProps, 'scrollSnap' | 'scrollable' | 'gap'>>`
   overflow: hidden;
-  // overflow-x: auto;
-  // margin: 0;
-  // scroll-snap-type: ${({scrollSnap}) => (scrollSnap ? 'x mandatory' : '')};
-  // scrollbar-width: none;
-  //
-  // &::-webkit-scrollbar {
-  //   display: none;
-  // }
+  ${({scrollable, scrollSnap, gap}) =>
+    scrollable
+      ? `
+    gap: ${gap}px;
+    display: flex;
+    overflow-x: auto;
+    margin: 0;
+    scroll-snap-type: ${scrollSnap ? 'x mandatory' : ''};
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  `
+      : ''}
 `;
 
 const Rail = styled.div<Pick<CarouselProps, 'gap' | 'rows' | 'cols'> & {page: number; currentPage: number}>`
@@ -54,7 +72,7 @@ const ItemSet = styled.div<Pick<CarouselProps, 'gap' | 'rows' | 'cols'>>`
 `;
 
 const Item = styled.div<Pick<CarouselProps, 'scrollSnap'>>`
-  scroll-snap-align: ${({scrollSnap}) => (scrollSnap ? 'center' : '')};
+  scroll-snap-align: ${({scrollSnap}) => (scrollSnap ? 'start' : '')};
 `;
 
 const CAROUSEL_ITEM = 'CAROUSEL_ITEM';
@@ -63,6 +81,7 @@ function Carousel({
   rows: rowsProp = 1,
   gap: gapProp = 10,
   loop: loopProp = false,
+  scrollable = false,
   scrollSnap = true,
   hideArrow = false,
   arrowLeft,
@@ -79,69 +98,17 @@ function Carousel({
   const [rows, setRows] = useState<number>(rowsProp);
   const [gap, setGap] = useState<number>(0);
   const [loop, setLoop] = useState<boolean>(loopProp);
-  const [railWrapperWidth, setRailWrapperWidth] = useState<number>(0);
-  const [hasSetResizeHandler, setHasSetResizeHandler] = useState<boolean>(false);
   const railWrapperRef = useRef<HTMLDivElement>(null);
-  const randomKey = useMemo(() => `${Math.random()}-${Math.random()}`, []);
   const onPageChangedRef = useRefProp(onPageChanged);
   const onTotalPagesChangedRef = useRefProp(onTotalPagesChanged);
 
   useEffect(() => {
-    onPageChangedRef.current?.(currentPage);
-  }, [currentPage]);
-
-  const handleRailWrapperResize = useCallback(() => {
-    railWrapperRef.current && setRailWrapperWidth(railWrapperRef.current.offsetWidth);
-  }, [railWrapperRef]);
-
-  const setResizeHandler = useCallback(() => {
-    addResizeHandler(`gapCalculator-${randomKey}`, handleRailWrapperResize);
-    setHasSetResizeHandler(true);
-  }, [randomKey, handleRailWrapperResize]);
-
-  const rmResizeHandler = useCallback(() => {
-    removeResizeHandler(`gapCalculator-${randomKey}`);
-    setHasSetResizeHandler(false);
-  }, [randomKey]);
-
-  const parseGap = useCallback(
-    (gap) => {
-      let parsed = gap;
-      let shouldSetResizeHandler = false;
-
-      if (typeof gap !== 'number') {
-        switch (/\D*$/.exec(gap)?.[0]) {
-          case 'px': {
-            parsed = +gap.replace('px', '');
-            break;
-          }
-          case '%': {
-            const wrapperWidth = railWrapperWidth || (railWrapperRef.current ? railWrapperRef.current.offsetWidth : 0);
-            parsed = (wrapperWidth * gap.replace('%', '')) / 100;
-            shouldSetResizeHandler = true;
-            break;
-          }
-          default: {
-            parsed = 0;
-            console.error(`Doesn't support the provided measurement unit: ${gap}`);
-          }
-        }
-      }
-
-      shouldSetResizeHandler && !hasSetResizeHandler && setResizeHandler();
-      !shouldSetResizeHandler && hasSetResizeHandler && rmResizeHandler();
-      return parsed;
-    },
-    [railWrapperWidth, railWrapperRef, hasSetResizeHandler, setResizeHandler, rmResizeHandler]
-  );
-
-  useEffect(() => {
     setCols(colsProp);
     setRows(rowsProp);
-    setGap(parseGap(gapProp));
+    setGap(gapProp);
     setLoop(loopProp);
     setCurrentPage(0);
-  }, [colsProp, rowsProp, gapProp, loopProp, parseGap]);
+  }, [colsProp, rowsProp, gapProp, loopProp]);
 
   const itemList = useMemo(
     () => Children.toArray(children).filter((child) => (child as any)?.type?.displayName === CAROUSEL_ITEM),
@@ -172,10 +139,28 @@ function Carousel({
   const page = Math.ceil(itemList.length / itemAmountPerSet);
 
   useEffect(() => {
+    if (scrollable) return;
+    onPageChangedRef.current?.(currentPage);
+  }, [scrollable, currentPage]);
+
+  useEffect(() => {
+    if (scrollable) return;
     onTotalPagesChangedRef.current?.(page);
-  }, [page]);
+  }, [scrollable, page]);
 
   const handlePrev = useCallback(() => {
+    if (scrollable) {
+      if (railWrapperRef.current) {
+        const left = railWrapperRef.current.scrollLeft;
+        const width = railWrapperRef.current.clientWidth;
+        railWrapperRef.current.scrollTo({
+          left: Math.max(left - width, 0),
+          behavior: 'smooth',
+        });
+      }
+
+      return;
+    }
     setCurrentPage((p) => {
       const prevPage = p - 1;
       if (loop && prevPage < 0) {
@@ -184,11 +169,21 @@ function Carousel({
 
       return prevPage;
     });
-  }, [loop, page]);
+  }, [scrollable, loop, page]);
 
   const handleNext = useCallback(() => {
-    const railWrapper = railWrapperRef.current;
-
+    if (scrollable) {
+      if (railWrapperRef.current) {
+        const left = railWrapperRef.current.scrollLeft;
+        const width = railWrapperRef.current.clientWidth;
+        const fullWidth = railWrapperRef.current.scrollWidth;
+        railWrapperRef.current.scrollTo({
+          left: Math.min(left + width, fullWidth - width),
+          behavior: 'smooth',
+        });
+      }
+      return;
+    }
     setCurrentPage((p) => {
       const nextPage = p + 1;
       if (nextPage >= page) {
@@ -197,32 +192,32 @@ function Carousel({
 
       return nextPage;
     });
-  }, [loop, page, gap, railWrapperRef, scrollSnap]);
-
-  const turnToPage = useCallback((page) => {
-    setCurrentPage(page);
-  }, []);
+  }, [scrollable, loop, page, gap]);
 
   return (
     <Container className={containerClassName} style={containerStyle}>
       <ArrowButton
         type="prev"
-        hidden={hideArrow || (!loop && currentPage <= 0)}
+        hidden={!scrollable && (hideArrow || (!loop && currentPage <= 0))}
         CustomBtn={arrowLeft}
         onClick={handlePrev}
       />
-      <RailWrapper scrollSnap={scrollSnap} ref={railWrapperRef}>
-        <Rail cols={cols} rows={rows} page={page} gap={gap} currentPage={currentPage}>
-          {itemSetList.map((set, i) => (
-            <ItemSet key={i} cols={cols} rows={rows} gap={gap}>
-              {set}
-            </ItemSet>
-          ))}
-        </Rail>
+      <RailWrapper gap={gap} scrollable={scrollable} scrollSnap={scrollSnap} ref={railWrapperRef}>
+        {scrollable ? (
+          itemSetList.map((sets, i) => <Fragment key={i}>{sets}</Fragment>)
+        ) : (
+          <Rail cols={cols} rows={rows} page={page} gap={gap} currentPage={currentPage}>
+            {itemSetList.map((sets, i) => (
+              <ItemSet key={i} cols={cols} rows={rows} gap={gap}>
+                {sets}
+              </ItemSet>
+            ))}
+          </Rail>
+        )}
       </RailWrapper>
       <ArrowButton
         type="next"
-        hidden={hideArrow || (!loop && currentPage === page - 1)}
+        hidden={!scrollable && (hideArrow || (!loop && currentPage === page - 1))}
         CustomBtn={arrowRight}
         onClick={handleNext}
       />
