@@ -1,24 +1,24 @@
-const path = require('path')
-const fs = require('fs')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const path = require('path');
+const fs = require('fs');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 function isDirectory(dir) {
-  return fs.lstatSync(dir).isDirectory()
+  return fs.lstatSync(dir).isDirectory();
 }
 
 module.exports = {
   mode: 'development',
   entry: fs.readdirSync(__dirname).reduce((entries, dir) => {
     if (dir !== 'dist' && isDirectory(path.join(__dirname, dir))) {
-      entries[dir] = path.join(__dirname, dir, 'index.js')
+      entries[dir] = path.join(__dirname, dir, 'index.js');
     }
 
-    return entries
+    return entries;
   }, {}),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    chunkFilename: '[id].chunk.js'
+    chunkFilename: '[id].chunk.js',
   },
   module: {
     rules: [
@@ -26,22 +26,24 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
-      }
-    ]
+          loader: 'babel-loader',
+        },
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin({
-      verbose: true
-    })
+      verbose: true,
+    }),
   ],
   devServer: {
-    contentBase: __dirname,
-    publicPath: '/dist/',
+    static: __dirname,
     compress: true,
     hot: true,
-    inline: true,
-    host: '0.0.0.0'
-  }
-}
+    host: '0.0.0.0',
+    devMiddleware: {
+      index: true,
+      publicPath: '/dist/',
+    },
+  },
+};
