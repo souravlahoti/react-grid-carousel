@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
-import Carousel from '../../dist/bundle'
-import styled from 'styled-components'
+import React, {useState} from 'react';
+import Carousel from '../../dist/bundle';
+import styled from 'styled-components';
 
-const randomImageUrl = 'https://picsum.photos/800/600?random='
+const randomImageUrl = 'https://picsum.photos/800/600?random=';
 
 const Item = styled.div`
-  background-image: ${({ img }) => `url(${img})`};
+  background-image: ${({img}) => `url(${img})`};
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
   height: 200px;
-`
+`;
 
 const App = () => {
-  const [cols, setCols] = useState(3)
-  const [rows, setRows] = useState(1)
-  const [gap, setGap] = useState(10)
-  const [pages, setPages] = useState(2)
+  const [cols, setCols] = useState(3);
+  const [rows, setRows] = useState(1);
+  const [gap, setGap] = useState(10);
+  const [pages, setPages] = useState(2);
 
   return (
     <div>
@@ -29,8 +29,8 @@ const App = () => {
           min="1"
           max="20"
           value={cols}
-          onChange={e => {
-            setCols(+e.target.value)
+          onChange={(e) => {
+            setCols(+e.target.value);
           }}
         />{' '}
         {cols}
@@ -42,8 +42,8 @@ const App = () => {
           min="1"
           max="3"
           value={rows}
-          onChange={e => {
-            setRows(+e.target.value)
+          onChange={(e) => {
+            setRows(+e.target.value);
           }}
         />{' '}
         {rows}
@@ -55,8 +55,8 @@ const App = () => {
           min="1"
           max="4"
           value={pages}
-          onChange={e => {
-            setPages(+e.target.value)
+          onChange={(e) => {
+            setPages(+e.target.value);
           }}
         />{' '}
         {pages}
@@ -68,8 +68,8 @@ const App = () => {
           min="0"
           max="20"
           value={gap}
-          onChange={e => {
-            setGap(+e.target.value)
+          onChange={(e) => {
+            setGap(+e.target.value);
           }}
         />{' '}
         {gap}
@@ -83,15 +83,11 @@ const App = () => {
         ))}
       </Carousel>
       Photo by{' '}
-      <a
-        href="https://picsum.photos/"
-        rel="noreferrer noopener"
-        target="_blank"
-      >
+      <a href="https://picsum.photos/" rel="noreferrer noopener" target="_blank">
         https://picsum.photos/
       </a>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

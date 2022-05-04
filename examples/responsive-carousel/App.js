@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import Carousel from '../../dist/bundle'
+import React from 'react';
+import styled from 'styled-components';
+import Carousel from '../../dist/bundle';
 
 const Container = styled.div`
   position: absolute;
@@ -8,7 +8,7 @@ const Container = styled.div`
   left: 0;
   min-height: 100%;
   width: 100%;
-`
+`;
 
 const Row = styled.div`
   max-width: 1100px;
@@ -18,14 +18,14 @@ const Row = styled.div`
   @media screen and (max-width: 670px) {
     padding: 0;
   }
-`
+`;
 
 const ArrowBtn = styled.span`
   display: inline-block;
   position: absolute;
   top: 50%;
-  right: ${({ type }) => (type === 'right' ? '-40px' : 'unset')};
-  left: ${({ type }) => (type === 'left' ? '-40px' : 'unset')};
+  right: ${({type}) => (type === 'right' ? '-40px' : 'unset')};
+  left: ${({type}) => (type === 'left' ? '-40px' : 'unset')};
   width: 45px;
   height: 45px;
   background: #fff;
@@ -39,10 +39,8 @@ const ArrowBtn = styled.span`
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: ${({ type }) =>
-      type === 'right'
-        ? 'translate(-75%, -50%) rotate(45deg)'
-        : 'translate(-25%, -50%) rotate(-135deg)'};
+    transform: ${({type}) =>
+      type === 'right' ? 'translate(-75%, -50%) rotate(45deg)' : 'translate(-25%, -50%) rotate(-135deg)'};
     width: 10px;
     height: 10px;
     border-top: 2px solid #666;
@@ -52,7 +50,7 @@ const ArrowBtn = styled.span`
   &:hover::after {
     border-color: #333;
   }
-`
+`;
 
 const Card = styled.div`
   margin: 2px;
@@ -65,29 +63,29 @@ const Card = styled.div`
   :hover {
     box-shadow: 0 0 2px 0 #00000063;
   }
-`
+`;
 
 const Img = styled.div`
   height: 160px;
   margin-bottom: 4px;
-  background-image: ${({ img }) => `url(${img})`};
+  background-image: ${({img}) => `url(${img})`};
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-`
+`;
 
 const Title = styled.div`
   margin: 0 10px 10px;
   font-size: 15px;
   font-weight: bold;
-`
+`;
 
 const Star = styled.div`
   float: left;
   margin: 10px;
   color: #26bec9;
   font-size: 15px;
-`
+`;
 
 const Price = styled.div`
   font-size: 12px;
@@ -100,7 +98,7 @@ const Price = styled.div`
     font-size: 15px;
     color: #26bec9;
   }
-`
+`;
 
 const Code = styled.pre`
   max-width: 1100px;
@@ -109,7 +107,7 @@ const Code = styled.pre`
   padding: 20px;
   box-sizing: border-box;
   overflow: auto;
-`
+`;
 
 const Reference = styled.div`
   margin: 50px auto;
@@ -120,7 +118,7 @@ const Reference = styled.div`
   img {
     width: 100%;
   }
-`
+`;
 
 const App = () => (
   <Container>
@@ -150,12 +148,12 @@ const App = () => (
         responsiveLayout={[
           {
             breakpoint: 1200,
-            cols: 3
+            cols: 3,
           },
           {
             breakpoint: 990,
-            cols: 2
-          }
+            cols: 2,
+          },
         ]}
         mobileBreakpoint={670}
         arrowRight={<ArrowBtn type="right" />}
@@ -165,9 +163,7 @@ const App = () => (
           <Carousel.Item key={i}>
             <Card>
               <Img img={`https://picsum.photos/200/160?random=${i}`} />
-              <Title>
-                Day Tour From Tokyo: Tambara Ski Park &amp; Strawberry Picking
-              </Title>
+              <Title>Day Tour From Tokyo: Tambara Ski Park &amp; Strawberry Picking</Title>
               <Star>★★★★★</Star>
               <Price>
                 TWD <span>2,500</span>
@@ -213,11 +209,7 @@ const App = () => (
     <Reference>
       <h2 align="center">
         Responsive carousel on{' '}
-        <a
-          href="https://www.kkday.com/en"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
+        <a href="https://www.kkday.com/en" target="_blank" rel="noreferrer noopener">
           KKday
         </a>
       </h2>
@@ -229,6 +221,6 @@ const App = () => (
       </a>
     </Reference>
   </Container>
-)
+);
 
-export default App
+export default App;

@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import Carousel from '../../dist/bundle'
-import cities from './cities.json'
+import React from 'react';
+import styled from 'styled-components';
+import Carousel from '../../dist/bundle';
+import cities from './cities.json';
 
 const Container = styled.div`
   background: #f5f5f5;
@@ -10,21 +10,20 @@ const Container = styled.div`
   left: 0;
   min-height: 100%;
   width: 100%;
-`
+`;
 
 const Row = styled.div`
   max-width: 1200px;
   margin: 50px auto;
-`
+`;
 
 const ArrowBtn = styled.span`
   display: inline-block;
   position: absolute;
   top: 50%;
-  right: ${({ type }) => (type === 'right' ? '8px' : 'unset')};
-  left: ${({ type }) => (type === 'left' ? '8px' : 'unset')};
-  transform: ${({ type }) =>
-    `translateY(-50%) rotate(${type === 'right' ? '45deg' : '-135deg'})`};
+  right: ${({type}) => (type === 'right' ? '8px' : 'unset')};
+  left: ${({type}) => (type === 'left' ? '8px' : 'unset')};
+  transform: ${({type}) => `translateY(-50%) rotate(${type === 'right' ? '45deg' : '-135deg'})`};
   width: 16px;
   height: 16px;
   cursor: pointer;
@@ -34,10 +33,10 @@ const ArrowBtn = styled.span`
   &:hover {
     border-color: #333;
   }
-`
+`;
 
 const City = styled.div`
-  background-image: ${({ img }) => `url(${img})`};
+  background-image: ${({img}) => `url(${img})`};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -57,7 +56,7 @@ const City = styled.div`
     transform: translateY(-5px);
     box-shadow: 0 5px 5px 0 #666;
   }
-`
+`;
 
 const Code = styled.pre`
   max-width: 1200px;
@@ -66,7 +65,7 @@ const Code = styled.pre`
   padding: 20px;
   box-sizing: border-box;
   overflow: auto;
-`
+`;
 
 const Reference = styled.div`
   margin: 50px auto;
@@ -77,7 +76,7 @@ const Reference = styled.div`
   img {
     width: 100%;
   }
-`
+`;
 
 const App = () => (
   <Container>
@@ -100,13 +99,7 @@ const App = () => (
       >
         TOP DESTINATIONS
       </h1>
-      <Carousel
-        cols={4}
-        rows={2}
-        gap={6}
-        arrowLeft={<ArrowBtn type="left" />}
-        arrowRight={<ArrowBtn type="right" />}
-      >
+      <Carousel cols={4} rows={2} gap={6} arrowLeft={<ArrowBtn type="left" />} arrowRight={<ArrowBtn type="right" />}>
         {cities.map((city, i) => (
           <Carousel.Item key={i}>
             <City img={city.img}>{city.name}</City>
@@ -130,11 +123,7 @@ const App = () => (
     <Reference>
       <h2 align="center">
         Tour carousel on{' '}
-        <a
-          href="https://www.klook.com/en-US/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
+        <a href="https://www.klook.com/en-US/" target="_blank" rel="noreferrer noopener">
           KLOOK
         </a>
       </h2>
@@ -143,6 +132,6 @@ const App = () => (
       </a>
     </Reference>
   </Container>
-)
+);
 
-export default App
+export default App;

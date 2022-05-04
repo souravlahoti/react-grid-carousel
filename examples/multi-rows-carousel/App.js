@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import Carousel from '../../dist/bundle'
+import React from 'react';
+import styled from 'styled-components';
+import Carousel from '../../dist/bundle';
 
-const brandLogo = 'https://fakeimg.pl/320x180/?text=Brand%20logo%20'
+const brandLogo = 'https://fakeimg.pl/320x180/?text=Brand%20logo%20';
 
 const Container = styled.div`
   position: absolute;
@@ -11,16 +11,16 @@ const Container = styled.div`
   width: 100%;
   min-height: 100%;
   background: #f5f5f5;
-`
+`;
 
 const Row = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-`
+`;
 
 const Logo = styled.div`
   height: 110px;
-  background-image: ${({ img }) => `url(${img})`};
+  background-image: ${({img}) => `url(${img})`};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -31,7 +31,7 @@ const Logo = styled.div`
     width: calc(100% - 2px);
     height: 108px;
   }
-`
+`;
 
 const More = styled.div`
   height: 100%;
@@ -49,7 +49,7 @@ const More = styled.div`
     width: calc(100% - 2px);
     height: 108px;
   }
-`
+`;
 
 const Code = styled.pre`
   max-width: 1200px;
@@ -58,7 +58,7 @@ const Code = styled.pre`
   padding: 20px;
   box-sizing: border-box;
   overflow: auto;
-`
+`;
 
 const Reference = styled.div`
   margin: 50px auto;
@@ -69,7 +69,7 @@ const Reference = styled.div`
   img {
     width: 100%;
   }
-`
+`;
 
 const App = () => {
   return (
@@ -86,12 +86,7 @@ const App = () => {
         to build multiple rows carousel
       </h2>
       <Row>
-        <Carousel
-          cols={6}
-          rows={2}
-          gap={1}
-          containerStyle={{ background: 'transparent' }}
-        >
+        <Carousel cols={6} rows={2} gap={1} containerStyle={{background: 'transparent'}}>
           {[...Array(23)].map((_, i) => (
             <Carousel.Item key={i}>
               <Logo img={brandLogo + i} />
@@ -129,7 +124,7 @@ const App = () => {
         </a>
       </Reference>
     </Container>
-  )
-}
+  );
+};
 
-export default App
+export default App;
