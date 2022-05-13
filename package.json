@@ -27,7 +27,8 @@
     "dev": "concurrently \"nodemon\" \"webpack-dev-server --config examples/webpack.config.js\"",
     "build": "rollup -c",
     "prettier": "prettier --write './**/*.{ts,tsx,jsx,js,json,css}'",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "standard-version"
   },
   "author": "YY",
   "license": "MIT",
@@ -62,6 +63,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-generate-declarations": "^1.1.1",
     "rollup-plugin-typescript": "^1.0.1",
+    "standard-version": "^9.3.2",
     "tslib": "^2.4.0",
     "typescript": "^4.6.4",
     "webpack": "^5.72.0",
