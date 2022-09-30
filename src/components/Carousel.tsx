@@ -148,6 +148,12 @@ function Carousel({
     onTotalPagesChangedRef.current?.(page);
   }, [scrollable, page]);
 
+  useEffect(() => {
+    if (currentPage + 1 > page) {
+      setCurrentPage(page - 1);
+    }
+  }, [currentPage, page]);
+
   const handlePrev = useCallback(() => {
     if (scrollable) {
       if (railWrapperRef.current) {
