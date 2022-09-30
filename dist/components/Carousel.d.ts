@@ -1,4 +1,5 @@
 import { CSSProperties, FC, ReactNode } from 'react';
+import { DotProps } from './Dots';
 export declare type CarouselProps = {
     cols?: number;
     rows?: number;
@@ -15,8 +16,9 @@ export declare type CarouselProps = {
     onTotalPagesChanged?: (page: number) => void;
     startPage?: number;
     children?: ReactNode;
-};
-declare function Carousel({ cols: colsProp, rows: rowsProp, gap: gapProp, loop: loopProp, scrollable, scrollSnap, hideArrow, arrowLeft, arrowRight, containerClassName, containerStyle, children, startPage, onPageChanged, onTotalPagesChanged, }: CarouselProps): JSX.Element;
+    showDots?: boolean;
+} & Pick<DotProps, 'dot' | 'dotColorActive' | 'dotColorInactive'>;
+declare function Carousel({ cols: colsProp, rows: rowsProp, gap: gapProp, loop: loopProp, scrollable, scrollSnap, hideArrow, arrowLeft, arrowRight, containerClassName, containerStyle, children, startPage, onPageChanged, onTotalPagesChanged, showDots, dotColorActive, dotColorInactive, }: CarouselProps): JSX.Element;
 declare namespace Carousel {
     var Item: FC<{}>;
 }

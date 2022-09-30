@@ -52,7 +52,7 @@ const App = () => {
     <div>
       <h4 className="thin">Single column</h4>
       <button onClick={() => setSliceLength((s) => --s)}>Delete image from end</button>
-      <Carousel showDots containerStyle={{maxWidth: '500px'}}>
+      <Carousel containerStyle={{maxWidth: '500px'}}>
         {[...Array(sliceLength)].map((_, i) => (
           <Carousel.Item key={i}>
             <img width="100%" src={randomImgUrl.replace('{x}', 400).replace('{y}', 280) + i} />

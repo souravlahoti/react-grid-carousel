@@ -9,11 +9,11 @@ import {
   useMemo,
   useRef,
   useState,
-  UIEvent,
 } from 'react';
 import styled from 'styled-components';
 import useRefProp from '../hooks/useRefProp';
 import ArrowButton from './ArrowButton';
+import Dot, {DotProps} from './Dots';
 
 export type CarouselProps = {
   cols?: number;
@@ -31,28 +31,32 @@ export type CarouselProps = {
   onTotalPagesChanged?: (page: number) => void;
   startPage?: number;
   children?: ReactNode;
-};
+  showDots?: boolean;
+} & Pick<DotProps, 'dot' | 'dotColorActive' | 'dotColorInactive'>;
 
 const Container = styled.div`
   position: relative;
 `;
 
-const RailWrapper = styled.div<Pick<CarouselProps, 'scrollSnap' | 'scrollable' | 'gap'>>`
+const RailWrapper = styled.div<Pick<CarouselProps, 'scrollSnap' | 'scrollable' | 'gap' | 'showDots'>>`
   overflow: hidden;
-  ${({scrollable, scrollSnap, gap}) =>
-    scrollable
-      ? `
+  ${({scrollable, scrollSnap, gap, showDots}) =>
+    `${
+      scrollable
+        ? `
     gap: ${gap}px;
     display: flex;
     overflow-x: auto;
-    margin: 0;
     scroll-snap-type: ${scrollSnap ? 'x mandatory' : ''};
     scrollbar-width: none;
     &::-webkit-scrollbar {
       display: none;
     }
   `
-      : ''}
+        : ''
+    }
+    margin: ${showDots ? '0 20px 20px 20px' : '0 20px'};
+      `}
 `;
 
 const Rail = styled.div<Pick<CarouselProps, 'gap' | 'rows' | 'cols'> & {page: number; currentPage: number}>`
@@ -71,11 +75,24 @@ const ItemSet = styled.div<Pick<CarouselProps, 'gap' | 'rows' | 'cols'>>`
   grid-gap: ${({gap}) => `${gap}px`};
 `;
 
+const Dots = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: -20px;
+  height: 10px;
+  width: 100%;
+  line-height: 10px;
+  text-align: center;
+`;
+
 const Item = styled.div<Pick<CarouselProps, 'scrollSnap'>>`
   scroll-snap-align: ${({scrollSnap}) => (scrollSnap ? 'start' : '')};
 `;
 
 const CAROUSEL_ITEM = 'CAROUSEL_ITEM';
+
 function Carousel({
   cols: colsProp = 1,
   rows: rowsProp = 1,
@@ -92,6 +109,9 @@ function Carousel({
   startPage = 0,
   onPageChanged,
   onTotalPagesChanged,
+  showDots,
+  dotColorActive = '#795548',
+  dotColorInactive = '#ccc',
 }: CarouselProps) {
   const [currentPage, setCurrentPage] = useState<number>(startPage);
   const [cols, setCols] = useState<number>(colsProp);
@@ -200,6 +220,10 @@ function Carousel({
     });
   }, [scrollable, loop, page, gap]);
 
+  const turnToPage = useCallback((page) => {
+    setCurrentPage(page);
+  }, []);
+
   return (
     <Container className={containerClassName} style={containerStyle}>
       <ArrowButton
@@ -208,7 +232,7 @@ function Carousel({
         CustomBtn={arrowLeft}
         onClick={handlePrev}
       />
-      <RailWrapper gap={gap} scrollable={scrollable} scrollSnap={scrollSnap} ref={railWrapperRef}>
+      <RailWrapper showDots={showDots} gap={gap} scrollable={scrollable} scrollSnap={scrollSnap} ref={railWrapperRef}>
         {scrollable ? (
           itemSetList.map((sets, i) => <Fragment key={i}>{sets}</Fragment>)
         ) : (
@@ -221,6 +245,20 @@ function Carousel({
           </Rail>
         )}
       </RailWrapper>
+      {showDots && (
+        <Dots>
+          {[...Array(page)].map((_, i) => (
+            <Dot
+              key={i}
+              index={i}
+              isActive={i === currentPage}
+              dotColorInactive={dotColorInactive}
+              dotColorActive={dotColorActive}
+              onClick={turnToPage}
+            />
+          ))}
+        </Dots>
+      )}
       <ArrowButton
         type="next"
         hidden={!scrollable && (hideArrow || (!loop && currentPage === page - 1))}
