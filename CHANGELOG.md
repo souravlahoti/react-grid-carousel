@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.3](https://github.com/GrowthDay/react-grid-carousel/compare/v1.2.2...v1.2.3) (2022-10-03)
+
+
+### Bug Fixes
+
+* margin ([58347ba](https://github.com/GrowthDay/react-grid-carousel/commit/58347ba1185f0473f5a2191518ce6bd43d9d878f))
+
 ### [1.2.2](https://github.com/GrowthDay/react-grid-carousel/compare/v1.2.0...v1.2.2) (2022-10-03)
 
 
