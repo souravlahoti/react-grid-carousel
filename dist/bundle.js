@@ -102,7 +102,7 @@ var RailWrapper = styled__default["default"].div(templateObject_2 || (templateOb
     var scrollable = _a.scrollable, scrollSnap = _a.scrollSnap, gap = _a.gap, showDots = _a.showDots;
     return "".concat(scrollable
         ? "\n    gap: ".concat(gap, "px;\n    display: flex;\n    overflow-x: auto;\n    scroll-snap-type: ").concat(scrollSnap ? 'x mandatory' : '', ";\n    scrollbar-width: none;\n    &::-webkit-scrollbar {\n      display: none;\n    }\n  ")
-        : '', "\n    margin: ").concat(showDots ? '0 20px 20px 20px' : '0 20px', ";\n      ");
+        : '', "\n    margin: ").concat(showDots ? '0 0 20px' : 0, ";\n      ");
 });
 var Rail = styled__default["default"].div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  display: grid;\n  grid-column-gap: ", ";\n  position: relative;\n  transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1) 0s;\n  grid-template-columns: ", ";\n  transform: ", ";\n"], ["\n  display: grid;\n  grid-column-gap: ", ";\n  position: relative;\n  transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1) 0s;\n  grid-template-columns: ", ";\n  transform: ", ";\n"])), function (_a) {
     var gap = _a.gap;
