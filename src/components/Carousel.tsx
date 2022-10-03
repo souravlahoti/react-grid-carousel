@@ -55,7 +55,7 @@ const RailWrapper = styled.div<Pick<CarouselProps, 'scrollSnap' | 'scrollable' |
   `
         : ''
     }
-    margin: ${showDots ? '0 20px 20px 20px' : '0 20px'};
+    margin: ${showDots ? '0 0 20px' : 0};
       `}
 `;
 
