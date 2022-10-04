@@ -169,7 +169,7 @@ function Carousel({
   }, [scrollable, page]);
 
   useEffect(() => {
-    if (currentPage + 1 > page) {
+    if (page > 0 && currentPage + 1 > page) {
       setCurrentPage(page - 1);
     }
   }, [currentPage, page]);

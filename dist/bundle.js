@@ -175,7 +175,7 @@ function Carousel(_a) {
         (_a = onTotalPagesChangedRef.current) === null || _a === void 0 ? void 0 : _a.call(onTotalPagesChangedRef, page);
     }, [scrollable, page]);
     react.useEffect(function () {
-        if (currentPage + 1 > page) {
+        if (page > 0 && currentPage + 1 > page) {
             setCurrentPage(page - 1);
         }
     }, [currentPage, page]);
